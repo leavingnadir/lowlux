@@ -6,7 +6,6 @@
 
 ## ESP32 Sample Data set code for testing 
 
-````
 ```
 #include <WiFi.h>
 #include <WebSocketsClient.h>
@@ -189,9 +188,7 @@ void loop() {
   delay(2000); // update every 2s
 }
 ```
-````
-
-
+<img width="1280" height="640" alt="youtube-banner-background-13" src="https://github.com/user-attachments/assets/3ab2c8b9-20f8-44d5-a1fd-5482e28a7df0" />
 
 # 🛠️ Full Setup Guide
 
@@ -203,11 +200,11 @@ Arduino IDE
 ESP32 board package for Arduino IDE
 
 In Arduino IDE → File → Preferences → paste this into Additional Boards Manager URLs:
-````
+
 ```
 (https://dl.espressif.com/dl/package_esp32_index.json)
 ```
-````
+
 Then go to Tools → Board → Board Manager → Install ESP32 by Espressif Systems
 Node.js (latest LTS version) → Download Node.js
 npm or yarn (comes with Node.js)
@@ -348,25 +345,25 @@ Git Bash path:
 
 ## 2️⃣ Navigate to folder in Git Bash
 
-````
+
 ```
 cd /c/Users/Ultima/Downloads/lowlux
 ```
-````
+
 
 Then check the files with:
-````
+
 ```
 ls
 ```
-````
+
 
 ## 3️⃣ Run Node server
-````
+
 ```
 node server.js
 ```
-````
+
 
 You should see:
 HTTP & WS server running on port 5000
@@ -379,11 +376,11 @@ HTTP & WS server running on port 5000
 
 Open Arduino IDE → File → Preferences.
 In “Additional Boards Manager URLs”, add:
-````
+
 ```
 [node server.js](https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json)
 ```
-````
+
 If there are already URLs, separate them with a comma.
 Click OK.
 
@@ -429,12 +426,10 @@ Then click Upload to flash your ESP32.
 
 # WebSocket client from ::ffff:192.168.8.198 disconnected
 
-````
+
 ```
 No DFU capable USB device available
 Failed uploading: uploading error: exit status 74
 ```
-````
+
 This usually happens when the Arduino IDE can’t detect your ESP32 board. Let’s go step by step to fix it.if you don’t have an ESP32 physically connected, you cannot upload the sketch, and all errors like “No DFU device” or “exit status 74” are normal.
-
-
