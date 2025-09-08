@@ -7,7 +7,7 @@ export const header = {
   links: [
     {
       label: "Dashboard",
-      href: "#dashboard",
+      href: "/dashboard",
     },
     {
       label: "Features",
@@ -20,7 +20,7 @@ export const header = {
   ],
   buttons: [
     {
-      label: "Sign In",
+      label: "Login",
       href: "#",
       color: "transparent",
       size: "small",
