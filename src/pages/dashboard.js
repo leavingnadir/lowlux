@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import Head from "next/head";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   LineChart,
@@ -14,16 +15,49 @@ import {
 } from "recharts";
 
 export default function Dashboard() {
-  // Sample values
-  const [temperature] = useState(28);
-  const [humidity] = useState(55);
-  const [brightness] = useState(70);
-  const [peopleCount, setPeopleCount] = useState(3);
-  const [totalPeopleCount, setTotalPeopleCount] = useState(15);
-  const [doorOpen, setDoorOpen] = useState(false);
-  const [lightOn, setLightOn] = useState(false);
-  const [FanOn, setFanOn] = useState(false);
-  const [energySaving] = useState(123456);
+  const [data, setData] = useState({
+    temperature: 0,
+    humidity: 0,
+    brightness: 0,
+    peopleCount: 0,
+    totalPeopleCount: 0,
+    energySaving: 0,
+  });
+
+  const ws = useRef(null);
+  useEffect(() => {
+  const ws = new WebSocket("ws://192.168.8.198:5000"); // Or your PC IP
+
+  ws.onmessage = (event) => {
+    const newData = JSON.parse(event.data);
+    setData(newData);
+  }
+  return () => ws.close();
+}, []);
+
+/*
+useEffect(() => {
+  ws.current = new WebSocket("ws://192.168.8.198:5000"); // match IP
+
+  ws.current.onopen = () => console.log("WebSocket connected");
+  ws.current.onmessage = (event) => {
+    console.log("Received:", event.data);
+    setData(JSON.parse(event.data));
+  };
+
+  ws.current.onclose = () => console.log("WebSocket closed");
+  ws.current.onerror = (err) => console.log("WebSocket error:", err);
+
+  return () => ws.current.close();
+}, []);
+
+  const resetPeopleCount = () => {
+    setData(prev => ({
+      ...prev,
+      totalPeopleCount: prev.totalPeopleCount + prev.peopleCount,
+      peopleCount: 0,
+    }));
+  };*/
 
   // Dummy analytics data for charts
   const tempData = [
@@ -41,13 +75,13 @@ export default function Dashboard() {
     { time: "1PM", count: 3 },
     { time: "2PM", count: 5 },
   ];
-
-  const resetPeopleCount = () => {
-    setTotalPeopleCount(totalPeopleCount + peopleCount);
-    setPeopleCount(0);
-  };
-
   return (
+    <>
+    {/* Head Section */}
+      <Head>
+        <title>Lowlux Dashboard</title>
+      </Head>
+
     <div className="min-h-screen bg-gray-100 text-black p-6">
             <div className="flex items-center justify-between mb-12">
                 {/* Left: Logo + Dashboard */}
@@ -65,21 +99,39 @@ export default function Dashboard() {
       
       {/* Top Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-lg font-medium">🌡️ Temperature</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-5xl font-semibold">{temperature} °C</p>
-          </CardContent>
+        {/* Temprature */}
+        <Card className="text-black p-4 rounded-2xl shadow-md border">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-lg font-medium">🌡️ Temperature</span>
+          </div>
+          <h2 className="text-4xl font-medium">{data.temperature} °C</h2>
+          <div className="h-20 mt-2">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={tempData}>
+                <defs>
+                  <linearGradient id="tempFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#e5e5e5" stopOpacity={0.8}/>
+                    <stop offset="100%" stopColor="#ffffff" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#000000"
+                  strokeWidth={2}
+                  dot={false}
+                  fill="url(#tempFill)"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </Card>
-
         <Card>
           <CardHeader>
             <CardTitle className="text-lg font-medium">💧 Humidity</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-5xl font-semibold">{humidity} %</p>
+            <p className="text-6xl font-semibold">{data.humidity} %</p>
           </CardContent>
         </Card>
 
@@ -88,7 +140,7 @@ export default function Dashboard() {
             <CardTitle className="text-lg font-medium">💡 Brightness</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-5xl font-semibold">{brightness} %</p>
+            <p className="text-6xl font-semibold">{data.brightness} %</p>
           </CardContent>
         </Card>
 
@@ -97,13 +149,7 @@ export default function Dashboard() {
             <CardTitle className="text-lg font-medium">👥 People Count</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-5xl font-semibold">{peopleCount}</p>
-            <button
-              onClick={resetPeopleCount}
-              className="mt-2 px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700"
-            >
-              Reset Count
-            </button>
+            <p className="text-5xl font-semibold">{data.peopleCount}</p>
           </CardContent>
         </Card>
 
@@ -112,7 +158,7 @@ export default function Dashboard() {
             <CardTitle className="text-lg font-medium">📊 Total People Count</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-5xl font-semibold">{totalPeopleCount}</p>
+            <p className="text-6xl font-semibold">{data.totalPeopleCount}</p>
           </CardContent>
         </Card>
 
@@ -121,7 +167,7 @@ export default function Dashboard() {
             <CardTitle className="text-lg font-medium">⚡ Energy Saving</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-5xl font-semibold">{energySaving} ms</p>
+            <p className="text-5xl font-semibold">{data.energySaving} ms</p>
           </CardContent>
         </Card>
       </div>
@@ -181,43 +227,7 @@ export default function Dashboard() {
             </CardContent>
         </Card>
       </div>
-
-      {/* Manual Override */}
-      <Card>
-        <CardHeader>
-          <CardTitle>🛠 Manual Override</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex gap-4">
-            <button
-              onClick={() => setDoorOpen(!doorOpen)}
-              className={`px-4 py-2 rounded-lg ${
-                doorOpen ? "bg-red-600" : "bg-green-400"
-              }`}
-            >
-              {doorOpen ? "Close Door" : "Open Door"}
-            </button>
-
-            <button
-              onClick={() => setLightOn(!lightOn)}
-              className={`px-4 py-2 rounded-lg ${
-                lightOn ? "bg-yellow-500" : "bg-gray-600"
-              }`}
-            >
-              {lightOn ? "Turn Off Lights" : "Turn On Lights"}
-            </button>
-
-            <button
-              onClick={() => setFanOn(!FanOn)}
-              className={`px-4 py-2 rounded-lg ${
-                FanOn ? "bg-blue-500" : "bg-rose-600"
-              }`}
-            >
-              {FanOn ? "Turn Off Fans" : "Turn On Fans"}
-            </button>
-          </div>
-        </CardContent>
-      </Card>
     </div>
+    </>
   );
 }
