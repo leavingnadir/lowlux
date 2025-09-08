@@ -16,7 +16,7 @@ export default function App({ Component, pageProps }) {
       attribute="class"
       defaultTheme="light"
       enableSystem
-      disableTransitionOnChange
+      disableTransitionOnChanges
     >
       <main
         className={`${display.variable} ${body.variable} flex min-h-screen flex-col font-body text-base-600 dark:text-base-500 bg-base-50 dark:bg-base-950`}
