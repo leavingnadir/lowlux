@@ -217,7 +217,7 @@ React project (Next.js or CRA works fine)
 
 We need a server to act as the bridge between ESP32 and React.
 Make a new folder for the backend:
-````
+
 ```
 mkdir lowlux-backend
 cd lowlux-backend
@@ -225,19 +225,19 @@ npm init -y
 npm install express ws cors
 
 ```
-````
+
 Create server.js and Run server
-````
+
 ```
 node server.js
 ```
-````
+
 ✅ You should see:
-````
+
 ```
 HTTP & WS server running on port 5000
 ```
-````
+
 
 ## 3. ESP32 Setup (C++ with Arduino IDE)
 
@@ -251,28 +251,27 @@ Mac/Linux: ifconfig → look for inet address
 Replace 192.168.1.100 in code with your actual local IP.
 Press Win + R, type cmd, and hit Enter
 In Command Prompt, type:
-````
+
 ```
 ipconfig
 ```
-````
+
 ipconfig
 Look for your Wi-Fi adapter section. Find IPv4 Address
 
 Replace in ESP32 Code
 In your ESP32 code:
-````
+
 ```
 const char* ws_server = "192.168.1.105";  // 👈 Replace with your PC's IP
 ```
-````
+
 ⚠️ Make sure:
 
 ESP32 and your PC are connected to the same WiFi router
 The backend server (server.js) is running on your PC before ESP32 connects
 
-
-
+<img width="1280" height="640" alt="youtube-banner-background-13" src="https://github.com/user-attachments/assets/2644f5e2-da78-4cea-afb9-ee4de18da539" />
 
 # C++ data isn’t appearing in React dashboard.
 
@@ -281,14 +280,14 @@ The backend server (server.js) is running on your PC before ESP32 connects
 You’re using ESP32 connecting to your PC IP 192.168.8.198 on port 5000.
 In React, you are connecting to "ws://192.168.1.100:5000".
 ⚠️ Problem: The IPs must match. If your PC’s IP is 192.168.8.198, your React code should use:
-````
+
 ```
 const ws = new WebSocket("ws://192.168.8.198:5000");
 ```
-````
+
 ## 2️⃣ Make sure WebSocket in React is persistent
 Use useRef properly:
-````
+
 ```
 const ws = useRef(null);
 
@@ -307,7 +306,6 @@ useEffect(() => {
   return () => ws.current.close();
 }, []);
 ```
-````
 
 ## 3️⃣ Find your Wi-Fi SSID (network name)
 
@@ -335,10 +333,9 @@ Mac:
 Smartphone:
   Often printed on your router, or you can see it in Settings → Wi-Fi → Tap network → Show password.
 
+<img width="1280" height="640" alt="youtube-banner-background-13" src="https://github.com/user-attachments/assets/31ad2967-aced-4231-91be-265138fcc2b3" />
 
-
-
-# Can’t find your server.js file
+# Can’t find server.js file
 
 ## 1️⃣ Convert Windows path to Git Bash path
 
@@ -374,8 +371,7 @@ node server.js
 You should see:
 HTTP & WS server running on port 5000
 
-
-
+<img width="1280" height="640" alt="youtube-banner-background-13" src="https://github.com/user-attachments/assets/89e5db7d-9977-41fd-86a1-a31aa54a68da" />
 
 # Missing FQBN (Fully Qualified Board Name)
 
@@ -413,7 +409,7 @@ Click Verify to compile.
 Click Upload to flash your ESP32.
 ✅ This should remove the “Missing FQBN” error.
 
-
+<img width="1280" height="640" alt="youtube-banner-background-13" src="https://github.com/user-attachments/assets/d5d68130-20fb-4237-87dd-5f688455a19a" />
 
 # WebSockets library
 
@@ -429,7 +425,7 @@ Open your sketch lowlux_esp32.ino
 Click Verify (check mark) → it should compile successfully.
 Then click Upload to flash your ESP32.
 
-
+<img width="1280" height="640" alt="youtube-banner-background-13" src="https://github.com/user-attachments/assets/56c8716d-ca50-4a49-b683-5ab6b9fcd277" />
 
 # WebSocket client from ::ffff:192.168.8.198 disconnected
 
@@ -440,4 +436,5 @@ Failed uploading: uploading error: exit status 74
 ```
 ````
 This usually happens when the Arduino IDE can’t detect your ESP32 board. Let’s go step by step to fix it.if you don’t have an ESP32 physically connected, you cannot upload the sketch, and all errors like “No DFU device” or “exit status 74” are normal.
+
 
