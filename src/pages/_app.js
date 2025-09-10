@@ -10,6 +10,7 @@ const body = Inter({
   subsets: ["latin"],
   variable: "--font-body",
 });
+
 export default function App({ Component, pageProps }) {
   return (
     <ThemeProvider

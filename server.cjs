@@ -69,18 +69,11 @@ wss.on("connection", (ws) => {
 
 // ==== Simulate ESP32 data every 5 seconds ====
 setInterval(() => {
-  const sampleData = {
-    temperature: Math.floor(Math.random() * 10 + 25),
-    humidity: Math.floor(Math.random() * 20 + 50),
-    brightness: Math.floor(Math.random() * 30 + 60),
-    peopleCount: Math.floor(Math.random() * 5 + 1),
-    totalPeopleCount: Math.floor(Math.random() * 20 + 10),
-    energySaving: Math.floor(Math.random() * 200 + 100)
+  const fake = {
+    temperature: 22 + Math.floor(Math.random() * 6),
+    humidity: 50 + Math.floor(Math.random() * 10),
+    ldr: Math.floor(Math.random() * 100),
+    peopleCount: Math.floor(Math.random() * 5),
   };
-
-  wss.clients.forEach((client) => {
-    if (client.readyState === 1) client.send(JSON.stringify(sampleData));
-  });
-
-  console.log("Sent sample data:", sampleData);
-}, 5000);
+  broadcast(fake);
+}, 3000);

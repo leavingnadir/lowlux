@@ -1,9 +1,3 @@
-# Main Website 
-<img width="1545" height="3624" alt="localhost_3000_" src="https://github.com/user-attachments/assets/1848016c-6e6a-41e3-8521-a8cc9c16d5c0" />
-
-# Dashboard
-<img width="1920" height="953" alt="image" src="https://github.com/user-attachments/assets/c7c76ab8-69ec-48f1-8db5-7c88e1647ab6" />
-
 ## ESP32 Sample Data set code for testing 
 
 ```
@@ -87,107 +81,6 @@ void loop() {
 }
 ```
 
-## ESP32 LOWLUX OG code
-
-```
-#include <DHT.h>
-#include <LiquidCrystal_I2C.h>
-
-// Pin setup
-#define IR1_PIN 32
-#define IR2_PIN 33
-#define LDR_PIN 34
-#define FAN_PIN 25       // DC motor for fan
-#define LIGHT_PIN 26     // LED for light
-#define RELAY_AC_PIN 27  // Relay for AC
-
-// DHT22 setup
-#define DHTPIN 4
-#define DHTTYPE DHT22
-DHT dht(DHTPIN, DHTTYPE);
-
-// LCD setup (I2C address may vary, often 0x27 or 0x3F)
-LiquidCrystal_I2C lcd(0x27, 16, 2);
-
-// Variables
-bool roomOccupied = false;
-
-void setup() {
-  Serial.begin(115200);
-
-  pinMode(IR1_PIN, INPUT);
-  pinMode(IR2_PIN, INPUT);
-  pinMode(LDR_PIN, INPUT);
-  
-  pinMode(FAN_PIN, OUTPUT);
-  pinMode(LIGHT_PIN, OUTPUT);
-  pinMode(RELAY_AC_PIN, OUTPUT);
-
-  dht.begin();
-  lcd.init();
-  lcd.backlight();
-
-  lcd.setCursor(0,0);
-  lcd.print("Smart Room Sys");
-  delay(2000);
-  lcd.clear();
-}
-
-void loop() {
-  // Check occupancy (if either IR sensor detects movement)
-  roomOccupied = digitalRead(IR1_PIN) == HIGH || digitalRead(IR2_PIN) == HIGH;
-
-  // Get room conditions
-  int ldrValue = analogRead(LDR_PIN);
-  float temp = dht.readTemperature();
-
-  Serial.print("LDR: "); Serial.print(ldrValue);
-  Serial.print(" Temp: "); Serial.println(temp);
-
-  if (roomOccupied) {
-    // Lights control
-    if (ldrValue < 2000) { // Adjust threshold for brightness
-      digitalWrite(LIGHT_PIN, HIGH); // Turn on light
-    } else {
-      digitalWrite(LIGHT_PIN, LOW); // Bright enough, keep lights off
-    }
-
-    // Fan control
-    if (temp > 24 && temp < 30) { // Comfortable warm
-      digitalWrite(FAN_PIN, HIGH);
-    } else {
-      digitalWrite(FAN_PIN, LOW);
-    }
-
-    // AC control (via relay + LCD)
-    if (temp >= 30) {
-      digitalWrite(RELAY_AC_PIN, HIGH);
-      lcd.setCursor(0,0);
-      lcd.print("AC: ON        ");
-    } else if (temp <= 20) {
-      digitalWrite(RELAY_AC_PIN, LOW);
-      lcd.setCursor(0,0);
-      lcd.print("AC: OFF (Cold)");
-    } else {
-      digitalWrite(RELAY_AC_PIN, LOW);
-      lcd.setCursor(0,0);
-      lcd.print("AC: OFF (OK) ");
-    }
-
-  } else {
-    // Nobody in the room → everything off
-    digitalWrite(LIGHT_PIN, LOW);
-    digitalWrite(FAN_PIN, LOW);
-    digitalWrite(RELAY_AC_PIN, LOW);
-    lcd.setCursor(0,0);
-    lcd.print("Room Empty    ");
-  }
-
-  delay(2000); // update every 2s
-}
-```
-<img width="1280" height="640" alt="youtube-banner-background-13" src="https://github.com/user-attachments/assets/3ab2c8b9-20f8-44d5-a1fd-5482e28a7df0" />
-
 # 🛠️ Full Setup Guide
 
 ## 1. Install Tools
@@ -266,8 +159,6 @@ const char* ws_server = "192.168.1.105";  // 👈 Replace with your PC's IP
 ESP32 and your PC are connected to the same WiFi router
 The backend server (server.js) is running on your PC before ESP32 connects
 
-<img width="1280" height="640" alt="youtube-banner-background-13" src="https://github.com/user-attachments/assets/2644f5e2-da78-4cea-afb9-ee4de18da539" />
-
 # C++ data isn’t appearing in React dashboard.
 
 ## 1️⃣ Make sure your WebSocket server is reachable
@@ -328,8 +219,6 @@ Mac:
 Smartphone:
   Often printed on your router, or you can see it in Settings → Wi-Fi → Tap network → Show password.
 
-<img width="1280" height="640" alt="youtube-banner-background-13" src="https://github.com/user-attachments/assets/31ad2967-aced-4231-91be-265138fcc2b3" />
-
 # Can’t find server.js file
 
 ## 1️⃣ Convert Windows path to Git Bash path
@@ -365,8 +254,6 @@ node server.js
 
 You should see:
 HTTP & WS server running on port 5000
-
-<img width="1280" height="640" alt="youtube-banner-background-13" src="https://github.com/user-attachments/assets/89e5db7d-9977-41fd-86a1-a31aa54a68da" />
 
 # Missing FQBN (Fully Qualified Board Name)
 
@@ -404,8 +291,6 @@ Click Verify to compile.
 Click Upload to flash your ESP32.
 ✅ This should remove the “Missing FQBN” error.
 
-<img width="1280" height="640" alt="youtube-banner-background-13" src="https://github.com/user-attachments/assets/d5d68130-20fb-4237-87dd-5f688455a19a" />
-
 # WebSockets library
 
 ## 1️⃣ Check dependencies
@@ -420,8 +305,6 @@ Open your sketch lowlux_esp32.ino
 Click Verify (check mark) → it should compile successfully.
 Then click Upload to flash your ESP32.
 
-<img width="1280" height="640" alt="youtube-banner-background-13" src="https://github.com/user-attachments/assets/56c8716d-ca50-4a49-b683-5ab6b9fcd277" />
-
 # WebSocket client from ::ffff:192.168.8.198 disconnected
 
 
@@ -432,3 +315,541 @@ Failed uploading: uploading error: exit status 74
 
 This usually happens when the Arduino IDE can’t detect your ESP32 board. Let’s go step by step to fix it.if you don’t have an ESP32 physically connected, you cannot upload the sketch, and all errors like “No DFU device” or “exit status 74” are normal.
 
+
+# DASHBOARD WITH NO UI (SANJANA LAP EDITION)
+
+``` dashboard.js
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+export default function Dashboard() {
+  const [data, setData] = useState({
+    temperature: 0,
+    humidity: 0,
+    ldr: 0,
+    occupied: false,
+    fan: 0,
+    light: 0,
+    ac: 0,
+    peopleCount: 0,
+    totalPeopleCount: 0,
+  });
+
+  const ws = useRef(null);
+  const prevPeopleRef = useRef(0);
+
+  useEffect(() => {
+    ws.current = new WebSocket("ws://172.28.25.157:5000"); // <-- set your server IP
+
+    ws.current.onopen = () => console.log("✅ WebSocket connected");
+    ws.current.onclose = () => console.log("❌ WebSocket closed");
+
+    ws.current.onmessage = (event) => {
+      try {
+        const incoming = JSON.parse(event.data);
+
+        // compute people delta (only positive increases count toward total)
+        const prev = prevPeopleRef.current ?? 0;
+        const incomingPeople = incoming.peopleCount ?? 0;
+        const delta = Math.max(0, incomingPeople - prev);
+
+        prevPeopleRef.current = incomingPeople;
+
+        setData((prev) => ({
+          // sensor fields overwrite
+          ...prev,
+          ...incoming,
+          // totalPeopleCount increments only when there's a positive delta
+          totalPeopleCount: prev.totalPeopleCount + delta,
+        }));
+      } catch (err) {
+        console.error("Invalid WS message:", event.data);
+      }
+    };
+
+    return () => {
+      if (ws.current) ws.current.close();
+    };
+  }, []);
+
+  // send command to server (which will forward to ESP32 if connected)
+  const sendCommand = (device, state) => {
+    if (!ws.current || ws.current.readyState !== WebSocket.OPEN) {
+      console.warn("WebSocket not ready");
+      return;
+    }
+
+    const cmd = { type: "command", device, state };
+    // optimistic update: update local UI immediately
+    setData((prev) => ({ ...prev, [device]: state }));
+    ws.current.send(JSON.stringify(cmd));
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 p-6">
+      <h1 className="text-3xl font-bold mb-6">📊 Smart Room Dashboard</h1>
+
+      {/* Sensor Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="p-4 bg-white rounded shadow">
+          <div className="text-sm text-gray-500">🌡 Temperature</div>
+          <div className="text-3xl font-semibold">{data.temperature} °C</div>
+        </div>
+
+        <div className="p-4 bg-white rounded shadow">
+          <div className="text-sm text-gray-500">💧 Humidity</div>
+          <div className="text-3xl font-semibold">{data.humidity} %</div>
+        </div>
+
+        <div className="p-4 bg-white rounded shadow">
+          <div className="text-sm text-gray-500">💡 Brightness (LDR)</div>
+          <div className="text-3xl font-semibold">{data.ldr}</div>
+        </div>
+
+        <div className="p-4 bg-white rounded shadow">
+          <div className="text-sm text-gray-500">👥 Current People</div>
+          <div className="text-3xl font-semibold">{data.peopleCount}</div>
+        </div>
+
+        <div className="p-4 bg-white rounded shadow">
+          <div className="text-sm text-gray-500">📊 Total People</div>
+          <div className="text-3xl font-semibold">{data.totalPeopleCount}</div>
+          <button
+            className="mt-2 px-3 py-1 bg-red-500 text-white rounded"
+            onClick={() => setData((prev) => ({ ...prev, totalPeopleCount: 0 }))}
+          >
+            Reset Total
+          </button>
+        </div>
+
+        <div className="p-4 bg-white rounded shadow">
+          <div className="text-sm text-gray-500">🚪 Occupied</div>
+          <div className="text-3xl font-semibold">
+            {data.occupied ? "Yes ✅" : "No ❌"}
+          </div>
+        </div>
+      </div>
+
+      {/* Controls */}
+      <h2 className="text-2xl font-bold mt-8 mb-4">⚙️ Controls</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Fan */}
+        <div className="p-4 bg-white rounded shadow text-center">
+          <div className="text-sm text-gray-500">🌀 Fan</div>
+          <div className="text-2xl font-semibold my-2">{data.fan ? "ON" : "OFF"}</div>
+          <div className="flex justify-center gap-3">
+            <button
+              className="px-4 py-2 bg-green-600 text-white rounded"
+              onClick={() => sendCommand("fan", 1)}
+            >
+              Turn ON
+            </button>
+            <button
+              className="px-4 py-2 bg-gray-700 text-white rounded"
+              onClick={() => sendCommand("fan", 0)}
+            >
+              Turn OFF
+            </button>
+          </div>
+        </div>
+
+        {/* Light */}
+        <div className="p-4 bg-white rounded shadow text-center">
+          <div className="text-sm text-gray-500">💡 Light</div>
+          <div className="text-2xl font-semibold my-2">{data.light ? "ON" : "OFF"}</div>
+          <div className="flex justify-center gap-3">
+            <button
+              className="px-4 py-2 bg-green-600 text-white rounded"
+              onClick={() => sendCommand("light", 1)}
+            >
+              Turn ON
+            </button>
+            <button
+              className="px-4 py-2 bg-gray-700 text-white rounded"
+              onClick={() => sendCommand("light", 0)}
+            >
+              Turn OFF
+            </button>
+          </div>
+        </div>
+
+        {/* AC */}
+        <div className="p-4 bg-white rounded shadow text-center">
+          <div className="text-sm text-gray-500">❄️ AC</div>
+          <div className="text-2xl font-semibold my-2">{data.ac ? "ON" : "OFF"}</div>
+          <div className="flex justify-center gap-3">
+            <button
+              className="px-4 py-2 bg-green-600 text-white rounded"
+              onClick={() => sendCommand("ac", 1)}
+            >
+              Turn ON
+            </button>
+            <button
+              className="px-4 py-2 bg-gray-700 text-white rounded"
+              onClick={() => sendCommand("ac", 0)}
+            >
+              Turn OFF
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+# SERVER.CJS WITH C++ BASIC INTERGRATION FOR AVI CODE (SANJANA LAP EDITION)
+
+``` server.cjs
+/*-------------------------------------------*/
+/* ESP32 <-> Web Dashboard Bridge + Simulator */
+/*  - Keeps device states (fan/light/ac) on   */
+/*    server so simulator can't overwrite    */
+/*  - Forwards commands from dashboard to    */
+/*    ESP32 (if connected)                    */
+/*  - Simulator runs only when ESP32 offline */
+/*-------------------------------------------*/
+const express = require("express");
+const { WebSocketServer, WebSocket } = require("ws");
+const cors = require("cors");
+
+const app = express();
+app.use(cors());
+
+const PORT = 5000;
+const OVERRIDE_TTL = 30 * 1000; // 30 seconds: how long a dashboard command remains authoritative
+
+const server = app.listen(PORT, () =>
+  console.log(`✅ HTTP + WebSocket server running on port ${PORT}`)
+);
+
+const wss = new WebSocketServer({ server });
+
+// Track ESP32 client
+let esp32Client = null;
+
+// Latest sensor snapshot (temperature, humidity, ldr, peopleCount, occupied, etc.)
+let latestSensors = {};
+
+// Server authoritative device states (persist between updates)
+let deviceStates = {
+  fan: 0,
+  light: 0,
+  ac: 0,
+};
+
+// Last override timestamps per device
+let lastOverrideAt = {
+  fan: 0,
+  light: 0,
+  ac: 0,
+};
+
+// Utility to create a merged payload to broadcast
+function getMergedPayload() {
+  return {
+    ...latestSensors,
+    // server device states override sensor-sent device values
+    fan: deviceStates.fan,
+    light: deviceStates.light,
+    ac: deviceStates.ac,
+  };
+}
+
+// Broadcast merged payload to all connected dashboards
+function broadcastMerged() {
+  const payload = JSON.stringify(getMergedPayload());
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) client.send(payload);
+  });
+}
+
+wss.on("connection", (ws) => {
+  console.log("🌐 New client connected");
+
+  // Immediately send latest merged snapshot
+  if (Object.keys(latestSensors).length > 0) {
+    ws.send(JSON.stringify(getMergedPayload()));
+  }
+
+  ws.on("message", (message) => {
+    // Expecting JSON
+    let parsed;
+    try {
+      parsed = JSON.parse(message.toString());
+    } catch (err) {
+      console.error("❌ Invalid JSON:", message.toString());
+      return;
+    }
+
+    // -------------------------
+    // Case A: Sensor message from ESP32 (has temperature field)
+    // -------------------------
+    if (parsed.temperature !== undefined) {
+      // Identify this connection as ESP32
+      esp32Client = ws;
+      // Update sensor snapshot (only sensor fields)
+      // Keep deviceStates on server unless their override TTL expired
+      latestSensors = { ...latestSensors, ...parsed };
+
+      const now = Date.now();
+
+      // If no recent dashboard override for device, accept ESP32 reported device state
+      ["fan", "light", "ac"].forEach((dev) => {
+        const overrideAgo = now - (lastOverrideAt[dev] || 0);
+        if (overrideAgo > OVERRIDE_TTL) {
+          // Accept ESP32's reported value if provided; else leave current server state
+          if (parsed[dev] !== undefined) {
+            deviceStates[dev] = parsed[dev];
+          }
+        } else {
+          // Keep server deviceStates (dashboard recently commanded it)
+        }
+      });
+
+      // Broadcast merged payload to dashboards
+      broadcastMerged();
+      return;
+    }
+
+    // -------------------------
+    // Case B: Command from dashboard (type === 'command')
+    // -------------------------
+    if (parsed.type === "command" && parsed.device) {
+      const { device, state } = parsed;
+
+      if (["fan", "light", "ac"].includes(device) && (state === 0 || state === 1)) {
+        // Update server authoritative state + set override timestamp
+        deviceStates[device] = state;
+        lastOverrideAt[device] = Date.now();
+
+        // Immediately broadcast merged state to dashboards (so UI updates instantly)
+        broadcastMerged();
+
+        // Forward the command to ESP32 (if connected)
+        if (esp32Client && esp32Client.readyState === WebSocket.OPEN) {
+          try {
+            esp32Client.send(JSON.stringify(parsed));
+            console.log("➡️ Forwarded command to ESP32:", parsed);
+          } catch (e) {
+            console.error("Failed to forward to ESP32:", e);
+          }
+        } else {
+          console.log("⚠️ No ESP32 connected — command saved on server state");
+        }
+      }
+      return;
+    }
+
+    // -------------------------
+    // Other message types (ignore or log)
+    // -------------------------
+    console.log("ℹ️ Received unknown message type:", parsed);
+  });
+
+  ws.on("close", () => {
+    console.log("❌ Client disconnected");
+    if (ws === esp32Client) {
+      esp32Client = null;
+      console.log("🚫 ESP32 disconnected — simulator will run if enabled");
+    }
+  });
+});
+
+/* ==== Simulator: Send fake data every 5s IF ESP32 not connected ==== */
+setInterval(() => {
+  if (!esp32Client) {
+    latestSensors = {
+      temperature: Math.floor(Math.random() * 10 + 20),
+      humidity: Math.floor(Math.random() * 30 + 40),
+      ldr: Math.floor(Math.random() * 4000),
+      occupied: Math.random() > 0.5,
+      peopleCount: Math.floor(Math.random() * 5),
+    };
+    // Broadcast merged (server deviceStates win)
+    broadcastMerged();
+    console.log("⚡ Sent simulated merged data:", getMergedPayload());
+  }
+}, 5000);
+```
+
+# AVI C++ CODE (UPDATE YET) 9/10/2025
+
+```
+#include <WiFi.h>
+#include <WebSocketsClient.h>
+#include <DHT.h>
+#include <LiquidCrystal_I2C.h>
+
+// ==== Wi-Fi Settings ====
+const char* ssid = "SLIIT-STD";        // Wi-Fi SSID
+const char* password = "Hirusha200519102433";         // Wi-Fi password
+
+// ==== WebSocket Settings ====
+const char* ws_server = "172.28.25.157";     // Node.js server IP
+const uint16_t ws_port = 5000;               // Must match Node.js server port
+WebSocketsClient webSocket;
+
+// ==== Pins ====
+#define IR1_PIN 32
+#define IR2_PIN 33
+#define LDR_PIN 34
+#define FAN_PIN 25
+#define LIGHT_PIN 26
+#define RELAY_AC_PIN 27
+
+// ==== DHT22 setup ====
+#define DHTPIN 4
+#define DHTTYPE DHT22
+DHT dht(DHTPIN, DHTTYPE);
+
+// ==== LCD ====
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
+// ==== Variables ====
+bool roomOccupied = false;
+int peopleCount = 0;   // optional people counter
+int entrancePrev = LOW;
+int exitPrev = LOW;
+
+// ==== WebSocket Event ====
+void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
+  switch(type) {
+    case WStype_DISCONNECTED:
+      Serial.println("WebSocket Disconnected");
+      break;
+    case WStype_CONNECTED:
+      Serial.println("WebSocket Connected");
+      break;
+    case WStype_TEXT:
+      Serial.printf("Received: %s\n", payload);
+      break;
+  }
+  case WStype_TEXT:
+  Serial.printf("Received: %s\n", payload);
+
+  // Parse command
+  if (strstr((char*)payload, "command")) {
+    String msg = String((char*)payload);
+    if (msg.indexOf("fan") > 0) {
+      int state = msg.indexOf("1") > 0 ? HIGH : LOW;
+      digitalWrite(FAN_PIN, state);
+    }
+    if (msg.indexOf("light") > 0) {
+      int state = msg.indexOf("1") > 0 ? HIGH : LOW;
+      digitalWrite(LIGHT_PIN, state);
+    }
+    if (msg.indexOf("ac") > 0) {
+      int state = msg.indexOf("1") > 0 ? HIGH : LOW;
+      digitalWrite(RELAY_AC_PIN, state);
+    }
+  }
+  break;
+
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  pinMode(IR1_PIN, INPUT);
+  pinMode(IR2_PIN, INPUT);
+  pinMode(LDR_PIN, INPUT);
+  pinMode(FAN_PIN, OUTPUT);
+  pinMode(LIGHT_PIN, OUTPUT);
+  pinMode(RELAY_AC_PIN, OUTPUT);
+
+  dht.begin();
+  lcd.init();
+  lcd.backlight();
+
+  lcd.setCursor(0,0);
+  lcd.print("Smart Room Sys");
+  delay(2000);
+  lcd.clear();
+
+  // ==== WiFi ====
+  WiFi.begin(ssid, password);
+  Serial.print("Connecting to WiFi...");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.print(".");
+  }
+  Serial.println("\nWiFi connected!");
+  Serial.println(WiFi.localIP());
+
+  // ==== WebSocket ====
+  webSocket.begin(ws_server, ws_port, "/");
+  webSocket.onEvent(webSocketEvent);
+}
+
+void loop() {
+  webSocket.loop(); // Keep WebSocket alive
+
+  // --- Occupancy (simple detection from IRs) ---
+  bool ir1 = digitalRead(IR1_PIN);
+  bool ir2 = digitalRead(IR2_PIN);
+  roomOccupied = (ir1 == HIGH || ir2 == HIGH);
+
+  // Optional: people counting logic
+  if (ir1 == HIGH && entrancePrev == LOW) {
+    peopleCount++;
+  }
+  entrancePrev = ir1;
+  if (ir2 == HIGH && exitPrev == LOW) {
+    if (peopleCount > 0) peopleCount--;
+  }
+  exitPrev = ir2;
+
+  // --- Sensor readings ---
+  int ldrValue = analogRead(LDR_PIN);
+  float temp = dht.readTemperature();
+  float hum = dht.readHumidity();
+
+  // --- Actuators ---
+  if (roomOccupied) {
+    if (ldrValue < 2000) digitalWrite(LIGHT_PIN, HIGH);
+    else digitalWrite(LIGHT_PIN, LOW);
+
+    if (temp > 24 && temp < 30) digitalWrite(FAN_PIN, HIGH);
+    else digitalWrite(FAN_PIN, LOW);
+
+    if (temp >= 30) {
+      digitalWrite(RELAY_AC_PIN, HIGH);
+      lcd.setCursor(0,0);
+      lcd.print("AC: ON        ");
+    } else {
+      digitalWrite(RELAY_AC_PIN, LOW);
+      lcd.setCursor(0,0);
+      lcd.print("AC: OFF       ");
+    }
+  } else {
+    digitalWrite(LIGHT_PIN, LOW);
+    digitalWrite(FAN_PIN, LOW);
+    digitalWrite(RELAY_AC_PIN, LOW);
+    lcd.setCursor(0,0);
+    lcd.print("Room Empty    ");
+  }
+
+  // --- Send JSON to WebSocket every 5s ---
+  static unsigned long lastSend = 0;
+  if (millis() - lastSend > 5000) {
+    lastSend = millis();
+
+    String jsonData = "{";
+    jsonData += "\"peopleCount\":" + String(peopleCount) + ",";
+    jsonData += "\"ldr\":" + String(ldrValue) + ",";
+    jsonData += "\"temperature\":" + String(temp) + ",";
+    jsonData += "\"humidity\":" + String(hum) + ",";
+    jsonData += "\"light\":" + String(digitalRead(LIGHT_PIN)) + ",";
+    jsonData += "\"fan\":" + String(digitalRead(FAN_PIN)) + ",";
+    jsonData += "\"ac\":" + String(digitalRead(RELAY_AC_PIN));
+    jsonData += "}";
+
+    webSocket.sendTXT(jsonData);
+    Serial.println("Sent: " + jsonData);
+  }
+
+  delay(500); // small delay for stability
+}
+```
