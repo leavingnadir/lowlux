@@ -1,9 +1,3 @@
-# Main Website 
-<img width="1545" height="3624" alt="localhost_3000_" src="https://github.com/user-attachments/assets/1848016c-6e6a-41e3-8521-a8cc9c16d5c0" />
-
-# Dashboard
-<img width="1920" height="953" alt="image" src="https://github.com/user-attachments/assets/c7c76ab8-69ec-48f1-8db5-7c88e1647ab6" />
-
 ## ESP32 Sample Data set code for testing 
 
 ```
@@ -431,4 +425,5 @@ Failed uploading: uploading error: exit status 74
 ```
 
 This usually happens when the Arduino IDE can’t detect your ESP32 board. Let’s go step by step to fix it.if you don’t have an ESP32 physically connected, you cannot upload the sketch, and all errors like “No DFU device” or “exit status 74” are normal.
+
 
