@@ -316,6 +316,7 @@ Failed uploading: uploading error: exit status 74
 This usually happens when the Arduino IDE can’t detect your ESP32 board. Let’s go step by step to fix it.if you don’t have an ESP32 physically connected, you cannot upload the sketch, and all errors like “No DFU device” or “exit status 74” are normal.
 
 
+
 # DASHBOARD WITH NO UI (SANJANA LAP EDITION)
 
 ``` dashboard.js
