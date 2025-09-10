@@ -21,13 +21,13 @@ export const header = {
   buttons: [
     {
       label: "Login",
-      href: "#",
+      href: "/login",
       color: "transparent",
       size: "small",
     },
     {
       label: "Sign Up",
-      href: "#",
+      href: "/sign",
       color: "dark",
       size: "small",
     },

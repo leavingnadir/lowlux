@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Head from "next/head";
 import { FeatureSection } from "@/components/sections/FeatureSection";
 import {
