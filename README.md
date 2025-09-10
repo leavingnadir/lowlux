@@ -1,4 +1,4 @@
-## ESP32 Sample Data set code for testing 
+# ⚡ESP32 Sample Data set code for testing 
 
 ```
 #include <WiFi.h>
@@ -81,7 +81,7 @@ void loop() {
 }
 ```
 
-# 🛠️ Full Setup Guide
+# ⚡Full Setup Guide
 
 1️⃣ Install Tools
 Before coding, make sure you have these installed:
@@ -159,7 +159,7 @@ const char* ws_server = "192.168.1.105";  // 👈 Replace with your PC's IP
 ESP32 and your PC are connected to the same WiFi router
 The backend server (server.js) is running on your PC before ESP32 connects
 
-# C++ data isn’t appearing in React dashboard.
+# ⚡C++ data isn’t appearing in React dashboard.
 
 1️⃣ Make sure your WebSocket server is reachable
 
@@ -207,7 +207,7 @@ Smartphone (iOS / Android):
   Go to settings → Wi-Fi.
   The connected network name is your SSID.
 
-# Find your Wi-Fi password
+# ⚡Find your Wi-Fi password
 
 Windows:
   Open Control Panel → Network and Sharing Center.
@@ -219,7 +219,7 @@ Mac:
 Smartphone:
   Often printed on your router, or you can see it in Settings → Wi-Fi → Tap network → Show password.
 
-# Can’t find server.js file
+# ⚡Can’t find server.js file
 
 1️⃣ Convert Windows path to Git Bash path
 
@@ -255,7 +255,7 @@ node server.js
 You should see:
 HTTP & WS server running on port 5000
 
-# Missing FQBN (Fully Qualified Board Name)
+# ⚡Missing FQBN (Fully Qualified Board Name)
 
 1️⃣ Install ESP32 board support (if not installed)
 
@@ -291,7 +291,7 @@ Click Verify to compile.
 Click Upload to flash your ESP32.
 ✅ This should remove the “Missing FQBN” error.
 
-# WebSockets library
+# ⚡WebSockets library
 
 1️⃣ Check dependencies
 Make sure you also have ESP32 board support installed, otherwise it won’t compile for ESP32.
@@ -305,7 +305,7 @@ Open your sketch lowlux_esp32.ino
 Click Verify (check mark) → it should compile successfully.
 Then click Upload to flash your ESP32.
 
-# WebSocket client from ::ffff:192.168.8.198 disconnected
+# ⚡WebSocket client from ::ffff:192.168.8.198 disconnected
 
 
 ```
@@ -315,7 +315,7 @@ Failed uploading: uploading error: exit status 74
 
 This usually happens when the Arduino IDE can’t detect your ESP32 board. Let’s go step by step to fix it.if you don’t have an ESP32 physically connected, you cannot upload the sketch, and all errors like “No DFU device” or “exit status 74” are normal.
 
-# DASHBOARD WITH NO UI (SANJANA LAP EDITION)
+# ⚡DASHBOARD WITH NO UI (SANJANA LAP EDITION)
 
 ``` dashboard.js
 "use client";
@@ -498,7 +498,7 @@ export default function Dashboard() {
 }
 ```
 
-# SERVER.CJS WITH C++ BASIC INTERGRATION FOR AVI CODE (SANJANA LAP EDITION)
+# ⚡SERVER.CJS WITH C++ BASIC INTERGRATION FOR AVI CODE (SANJANA LAP EDITION)
 
 ``` server.cjs
 /*-------------------------------------------*/
@@ -673,7 +673,7 @@ setInterval(() => {
 }, 5000);
 ```
 
-# AVI C++ CODE (UPDATE YET) 9/10/2025
+# ⚡AVI C++ CODE (UPDATE YET) 9/10/2025
 
 ```
 #include <WiFi.h>
